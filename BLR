@@ -170,6 +170,8 @@ local function getExecutor()
         return "Krnl"
     elseif isexecutor then
         return "ProtoSmasher"
+    elseif game:GetService("AdService"):FindFirstChild("deltaontop") then
+        return "Delta"
     else
         return "Unknown Executor"
     end
