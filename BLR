@@ -1,6 +1,6 @@
 		local lib = loadstring(game:HttpGet("https://raw.githubusercontent.com/PolarCheem/Duck-UI/refs/heads/main/aaaaaaaa"))()
 		local win = lib:Create("Blue Lock: Rivals")
-    local tab1 = win:tab("Main", true)
+    local tab1 = win:tab("Hitbox", true)
 
     local player = game.Players.LocalPlayer
     local char = player.Character or player.CharacterAdded:Wait()
@@ -13,6 +13,8 @@
 		local hbeSize = 0
 		local ballTransparency = 0
 		ball.Hitbox.Shape = Enum.PartType.Block
+
+		tab1:section("Ball")
 
     tab1:toggle("hbe Toggle", false, function(v)
         hbe = v
@@ -52,4 +54,4 @@
         end
     end)
 
-tab1:section("Goalkeeper")
+		tab1:section("Goalkeeper")
