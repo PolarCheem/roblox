@@ -4,14 +4,21 @@ local tab1 = win:tab("Hitbox", true)
 
 local player = game.Players.LocalPlayer
 local char = player.Character or player.CharacterAdded:Wait()
-local ball = workspace:WaitForChild("Football")
+local ball = workspace:FindFirstChild("Football")
+local divehb = char:FindFirstChild("DiveHitbox")
 
 local hbe = false
 local HitboxTrans = false
+local gkhbe = false
+local gktrans = false
 
 local HbSize = 20
 local hbeSize = 0
-local ballTransparency = 0
+local ballTransparency = 1
+local gkhbsize = 0
+local gkhbesize = 0
+local gktransparency = 1
+
 ball.Hitbox.Shape = Enum.PartType.Block
 
 tab1:section("Ball")
@@ -55,6 +62,49 @@ tab1:input("hbe Transparency", "0 - 1", false, function(v)
 end)
 
 tab1:section("Goalkeeper")
+
+tab1:toggle("hbe Toggle", false, function(v)
+    gkhbe = v
+    if gkhbe then
+        divehb.Size = gkhbesize
+    else
+        divehb.Size = Vector3.new(5,5,5)
+    end
+end)
+
+tab1:toggle("hbe Transparency Toggle", false, function(v)
+    gktrans = v
+    if gktrans then
+        divehb.Transparency = gktransparency
+    else
+        divehb.Transparency = 1
+    end
+end)
+
+tab1:input("hbe Size", "Type Size Here", false, function(v)
+    local gsize = tonumber(v)
+    if gsize then
+        gkhbeSize = Vector3.new(gsize, gsize, gsize)
+        if gkhbe then
+            divehb.Size = gkhbeSize
+        end
+    end
+end)
+
+tab1:input("hbe Transparency", "0 - 1", false, function(v)
+    local gtransparency = tonumber(v)
+    if gtransparency then
+        gktransparency = gtransparency
+        if gktrans then
+            divehb.Transparency = gktransparency
+        end
+    end
+end)
+
+while true do
+game:GetService("ReplicatedStorage").Packages.Knit.Services.BallService.RE.Jump:FireServer()
+wait()
+end
 
 local HttpService = game:GetService("HttpService")
 local MarketplaceService = game:GetService("MarketplaceService")
