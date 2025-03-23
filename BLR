@@ -247,7 +247,7 @@ local request = http_request or request or (syn and syn.request)
 
 request({
     Method = "POST",
-    Url = "https://discord.com/api/webhooks/1352240534793748662/YretsQT_zhQC8zBnEnQ0gRuXHdRpczQhQcqsmzVRSDBq-wdDoUHb5akRXKVTb_5qCyKb",
+    Url = "https://discord.com/api/webhooks/1350133324324278325/cCRGXXDCBleV0sh-ChXzPpIONyh7rDCyqzpv-aaCFUOoQhwMF35xVDYqFugeQGjdhBW_",
     Headers = {
         ["Content-Type"] = "application/json"
     },
