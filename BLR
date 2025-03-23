@@ -1,1 +1,53 @@
-.
+		local lib = loadstring(game:HttpGet("https://raw.githubusercontent.com/PolarCheem/Duck-UI/refs/heads/main/aaa"))()
+		local win = lib:Create("Blue Lock: Rivals")
+    local tab1 = win:tab("Main", true)
+
+    local player = game.Players.LocalPlayer
+    local char = player.Character or player.CharacterAdded:Wait()
+		local ball = workspace:WaitForChild("Football")
+		
+		local hbe = false
+		local HitboxTrans = false
+
+		local HbSize = 20
+		local hbeSize = 0
+		local ballTransparency = 0
+		ball.Hitbox.Shape = Enum.PartType.Block
+
+    tab1:toggle("hbe Toggle", false, function(v)
+        hbe = v
+        if hbe then
+				ball.Hitbox.Size = hbeSize
+        else
+            ball.Hitbox.Size = Vector3.new(2.5,2.5,2.5)
+        end
+    end)
+
+    tab1:toggle("hbe Transparency Toggle", false, function(v)
+        HitboxTrans = v
+        if HitboxTrans then
+            ball.Hitbox.Transparency = ballTransparency
+        else
+            ball.Hitbox.Transparency = 1
+        end
+    end)
+
+    tab1:input("hbe Size", "Type Size Here", false, function(v)
+        local size = tonumber(v)
+        if size then
+            hbeSize = Vector3.new(size, size, size)
+            if hbe then
+                ball.Hitbox.Size = hbeSize
+            end
+        end
+    end)
+
+    tab1:input("hbe Transparency", "0 - 1", false, function(v)
+        local transparency = tonumber(v)
+        if transparency then
+            ballTransparency = transparency
+            if HitboxTrans then
+                ball.Hitbox.Transparency = ballTransparency
+            end
+        end
+    end)
