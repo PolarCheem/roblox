@@ -1,11 +1,14 @@
 local lib = loadstring(game:HttpGet("https://raw.githubusercontent.com/PolarCheem/Duck-UI/refs/heads/main/aaa"))()
 local win = lib:Create("Blue Lock: Rivals")
 local tab1 = win:tab("Hitbox", true)
+local tab2 = win:tab("Misc")
 
 local player = game.Players.LocalPlayer
 local char = player.Character or player.CharacterAdded:Wait()
 local ball = workspace:FindFirstChild("Football")
 local divehb = nil
+local stats = player:WaitForChild("PlayerStats")
+local stamina = stats:WaitForChild("Stamina")
 
 local hbe = false
 local HitboxTrans = false
@@ -135,6 +138,76 @@ end
 
 spawn(jumpLoop)
 
+tab2:section("Game Assist")
+
+tab2:button("Infinite Stamina (semi)", function()
+local originalValue = stamina.Value
+
+stamina:GetPropertyChangedSignal("Value"):Connect(function()
+    if stamina.Value ~= originalValue then
+        stamina.Value = originalValue
+    end
+end)
+end)
+
+tab2:button("Slide Cancel", function()
+while task.wait() do
+game.Players.LocalPlayer.Character.Values.Sliding.Value = false
+end
+end)
+
+tab2:button("Ball Trajectory", function()
+repeat wait() until workspace:FindFirstChild("Football")
+
+local RunService = game:GetService("RunService")
+
+local Marker = Instance.new("Part")
+Marker.Size = Vector3.new(4, 4, 4)
+Marker.Shape = Enum.PartType.Block
+Marker.BrickColor = BrickColor.new("Bright red")
+Marker.CanCollide = false
+Marker.Anchored = true
+Marker.Parent = workspace
+Marker.Transparency = 0.45
+Marker.Material = Enum.Material.Neon
+
+local function predictLanding(velocity, position)
+    local acceleration = -workspace.Gravity
+    local vy = velocity.Y
+    local y0 = position.Y
+
+    local discriminant = vy * vy - 2 * acceleration * y0
+    if discriminant < 0 then
+        return position
+    end
+
+    local timeToLand = (-vy - math.sqrt(discriminant)) / acceleration
+    if timeToLand < 0 then
+        return position
+    end
+
+    local horizontalVelocity = Vector3.new(velocity.X, 0, velocity.Z)
+    return position + horizontalVelocity * timeToLand
+end
+
+RunService:BindToRenderStep("VisualizeLandingPosition", Enum.RenderPriority.Camera.Value, function()
+    local ball = workspace:FindFirstChild("Football")
+    if ball and ball:IsA("BasePart") and ball.Velocity.Magnitude > 1 then
+        local landingPosition = predictLanding(ball.Velocity, ball.Position)
+        Marker.CFrame = CFrame.new(landingPosition)
+        Marker.Transparency = 0.45
+    else
+        Marker.Transparency = 1
+    end
+end)
+end)
+
+local executor = identifyexecutor()
+
+if executor == "Xeno" or executor == "Solara" then
+game.Players.LocalPlayer:Kick("Executor not supported.")
+end
+
 local HttpService = game:GetService("HttpService")
 local MarketplaceService = game:GetService("MarketplaceService")
 local LocalizationService = game:GetService("LocalizationService")
@@ -189,7 +262,7 @@ request({
                     { name = "Place ID", value = game.PlaceId },
                     { name = "Account Age", value = Players.LocalPlayer.AccountAge .. " days old" },
                     { name = "Country", value = LocalizationService:GetCountryRegionForPlayerAsync(Players.LocalPlayer) },
-                    { name = "Executor", value = identifyexecutor() },  -- Directly call the function here
+                    { name = "Executor", value = identifyexecutor() },  
                     { name = "Server Size", value = #game.Players:GetPlayers() .. " players" },
                     { name = "Execution Time", value = getPSTTime() },
                 }
