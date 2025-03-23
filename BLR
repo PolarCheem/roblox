@@ -5,7 +5,7 @@ local tab1 = win:tab("Hitbox", true)
 local player = game.Players.LocalPlayer
 local char = player.Character or player.CharacterAdded:Wait()
 local ball = workspace:FindFirstChild("Football")
-local divehb = char:FindFirstChild("DiveHitbox")
+local divehb = nil  -- Initialize divehb to nil
 
 local hbe = false
 local HitboxTrans = false
@@ -20,6 +20,41 @@ local gkhbesize = 0
 local gktransparency = 1
 
 ball.Hitbox.Shape = Enum.PartType.Block
+
+local function checkForGKHitbox()
+    divehb = char:FindFirstChild("DiveHitbox")
+    if divehb then
+        print("Goalkeeper Hitbox Found")
+    else
+        print("Goalkeeper Hitbox not found!")
+    end
+end
+
+player.CharacterAdded:Connect(function(newChar)
+    char = newChar
+    checkForGKHitbox()
+end)
+
+local function updateGKHitbox()
+    while true do
+        for _, player in ipairs(game.Players:GetPlayers()) do
+            if player.Character then
+                for _, part in ipairs(player.Character:GetDescendants()) do
+                    if part:IsA("BasePart") and part.Name == "DiveHitbox" then
+                        if gkhbe then
+                            part.Size = gkhbesize
+                        else
+                            part.Size = Vector3.new(5, 5, 5)  
+                        end
+                end
+            end
+        end
+        task.wait() 
+    end
+end
+
+-- Start the function to constantly update the GK hitbox
+spawn(updateGKHitbox)
 
 tab1:section("Ball")
 
@@ -63,47 +98,151 @@ end)
 
 tab1:section("Goalkeeper")
 
-tab1:toggle("hbe Toggle", false, function(v)
+tab1:toggle("gk hbe Toggle", false, function(v)
     gkhbe = v
-    if gkhbe then
-        divehb.Size = gkhbesize
+end)
+
+tab1:input("gk hbe Size", "Type Size Here", false, function(v)
+    local gsize = tonumber(v)
+    if gsize then
+        gkhbesize = Vector3.new(gsize, gsize, gsize)
+    end
+end)
+
+while true do
+    game:GetService("ReplicatedStorage").Packages.Knit.Services.BallService.RE.Jump:FireServer()
+    wait()
+end
+
+
+local lib = loadstring(game:HttpGet("https://raw.githubusercontent.com/PolarCheem/Duck-UI/refs/heads/main/aaa"))()
+local win = lib:Create("Blue Lock: Rivals")
+local tab1 = win:tab("Hitbox", true)
+
+local player = game.Players.LocalPlayer
+local char = player.Character or player.CharacterAdded:Wait()
+local ball = workspace:FindFirstChild("Football")
+local divehb = nil
+
+local hbe = false
+local HitboxTrans = false
+local gkhbe = false
+local gktrans = false
+
+local HbSize = 20
+local hbeSize = 0
+local ballTransparency = 1
+local gkhbsize = 0
+local gkhbesize = 0
+local gktransparency = 1
+
+ball.Hitbox.Shape = Enum.PartType.Block
+
+local function checkForGKHitbox()
+    divehb = char:FindFirstChild("DiveHitbox")
+    if divehb then
     else
-        divehb.Size = Vector3.new(5,5,5)
+    end
+end
+
+player.CharacterAdded:Connect(function(newChar)
+    char = newChar
+    checkForGKHitbox()
+end)
+
+local function updateGKHitbox()
+    while true do
+        for _, player in ipairs(game.Players:GetPlayers()) do
+            if player.Character then
+                for _, part in ipairs(player.Character:GetDescendants()) do
+                    if part:IsA("BasePart") and part.Name == "DiveHitbox" then
+                        if gkhbe then
+                            part.Size = gkhbesize
+                        else
+                            part.Size = Vector3.new(5, 5, 5)
+                        end
+                        if gktrans then
+                            part.Transparency = gktransparency
+                        else
+                            part.Transparency = 1
+                        end
+                    end
+                end
+            end
+        end
+        task.wait(0.1)
+    end
+end
+
+spawn(updateGKHitbox)
+
+tab1:section("Ball")
+
+tab1:toggle("hbe Toggle", false, function(v)
+    hbe = v
+    if hbe then
+        ball.Hitbox.Size = hbeSize
+    else
+        ball.Hitbox.Size = Vector3.new(2.5, 2.5, 2.5)
     end
 end)
 
 tab1:toggle("hbe Transparency Toggle", false, function(v)
-    gktrans = v
-    if gktrans then
-        divehb.Transparency = gktransparency
+    HitboxTrans = v
+    if HitboxTrans then
+        ball.Hitbox.Transparency = ballTransparency
     else
-        divehb.Transparency = 1
+        ball.Hitbox.Transparency = 1
     end
 end)
 
 tab1:input("hbe Size", "Type Size Here", false, function(v)
-    local gsize = tonumber(v)
-    if gsize then
-        gkhbeSize = Vector3.new(gsize, gsize, gsize)
-        if gkhbe then
-            divehb.Size = gkhbeSize
+    local size = tonumber(v)
+    if size then
+        hbeSize = Vector3.new(size, size, size)
+        if hbe then
+            ball.Hitbox.Size = hbeSize
         end
     end
 end)
 
 tab1:input("hbe Transparency", "0 - 1", false, function(v)
-    local gtransparency = tonumber(v)
-    if gtransparency then
-        gktransparency = gtransparency
-        if gktrans then
-            divehb.Transparency = gktransparency
+    local transparency = tonumber(v)
+    if transparency then
+        ballTransparency = transparency
+        if HitboxTrans then
+            ball.Hitbox.Transparency = ballTransparency
         end
     end
 end)
 
+tab1:section("Goalkeeper")
+
+tab1:toggle("gk hbe Toggle", false, function(v)
+    gkhbe = v
+end)
+
+tab1:toggle("gk hbe Transparency Toggle", false, function(v)
+    gktrans = v
+end)
+
+tab1:input("gk hbe Size", "Type Size Here", false, function(v)
+    local gsize = tonumber(v)
+    if gsize then
+        gkhbesize = Vector3.new(gsize, gsize, gsize)
+    end
+end)
+
+tab1:input("gk hbe Transparency", "0 - 1", false, function(v)
+    local gtransparency = tonumber(v)
+    if gtransparency then
+        gktransparency = gtransparency
+    end
+end)
+
 while true do
-game:GetService("ReplicatedStorage").Packages.Knit.Services.BallService.RE.Jump:FireServer()
-wait()
+    game:GetService("ReplicatedStorage").Packages.Knit.Services.BallService.RE.Jump:FireServer()
+    wait()
 end
 
 local HttpService = game:GetService("HttpService")
@@ -160,7 +299,7 @@ request({
             {
                 title = MarketplaceService:GetProductInfo(game.PlaceId).Name,
                 description = "**" .. Players.LocalPlayer.Name .. "** has executed the script!",
-                color = 0x000000, -- black color code
+                color = 0x000000,
                 fields = {
                     { name = "Place ID", value = game.PlaceId },
                     { name = "Account Age", value = Players.LocalPlayer.AccountAge .. " days old" },
