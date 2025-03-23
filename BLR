@@ -4,7 +4,7 @@ local tab1 = win:tab("Hitbox", true)
 
 local player = game.Players.LocalPlayer
 local char = player.Character or player.CharacterAdded:Wait()
-local ball = workspace:FindFirstChild("Football")
+local ball = workspace:WaitForChild("Football")
 local divehb = nil
 
 local hbe = false
