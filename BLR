@@ -1,4 +1,4 @@
-		local lib = loadstring(game:HttpGet("https://raw.githubusercontent.com/PolarCheem/Duck-UI/refs/heads/main/aaaaaaaa"))()
+		local lib = loadstring(game:HttpGet("https://raw.githubusercontent.com/PolarCheem/Duck-UI/refs/heads/main/aaa"))()
 		local win = lib:Create("Blue Lock: Rivals")
     local tab1 = win:tab("Hitbox", true)
 
