@@ -1,5 +1,5 @@
 _G.BallName = "ball"
-_G.Magnitude = 10
+_G.Magnitude = 12
 _G.Enabled = true
 _G.Path = nil
 
@@ -10,7 +10,7 @@ local pickupHb = character:WaitForChild("pickuphb")
 
 local function pickupBall(ball)
     firetouchinterest(ball, pickupHb, 0)
-    task.wait(0.05)
+    task.wait()
     firetouchinterest(ball, pickupHb, 1)
 end
 
