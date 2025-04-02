@@ -1,29 +1,66 @@
 _G.BallName = "ball"
-_G.Magnitude = 12
+_G.Magnitude = 8
 _G.Enabled = true
-_G.Path = nil
 
-local player = game:GetService("Players").LocalPlayer
+local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+
+local player = Players.LocalPlayer
+player.PlayerGui.JumpCooldown:Destroy()
 local character = player.Character or player.CharacterAdded:Wait()
 local humanoidRootPart = character:WaitForChild("HumanoidRootPart")
 local pickupHb = character:WaitForChild("pickuphb")
 
-local function pickupBall(ball)
-    firetouchinterest(ball, pickupHb, 0)
-    task.wait()
-    firetouchinterest(ball, pickupHb, 1)
-end
+local isPickingUp = false
+local ballInstance = nil
 
-while _G.Enabled and task.wait() do
-    local searchIn = _G.Path or workspace
-    for _, obj in ipairs(searchIn:GetDescendants()) do
+local function findBall()
+    for _, obj in ipairs(workspace:GetDescendants()) do
         if obj.Name == _G.BallName and obj:IsA("BasePart") then
-            if (obj.Position - humanoidRootPart.Position).Magnitude <= _G.Magnitude then
-                pickupBall(obj)
-                if not _G.Path then
-                    _G.Path = obj.Parent
+            ballInstance = obj
+            obj.AncestryChanged:Connect(function()
+                if not obj.Parent then
+                    ballInstance = nil
+                    findBall()
                 end
-            end
+            end)
+            break
         end
     end
 end
+
+findBall()
+
+local function pickupBall(ball)
+    if isPickingUp or not ball then return end
+    isPickingUp = true
+    firetouchinterest(ball, pickupHb, 0)
+    task.wait(0.1)
+    firetouchinterest(ball, pickupHb, 1)
+    isPickingUp = false
+end
+
+coroutine.wrap(function()
+    while true do
+        if character and character:FindFirstChild("Stamina") then
+            character.Stamina.Value = 700
+        end
+        wait(5)
+    end
+end)()
+
+local connection
+connection = RunService.Heartbeat:Connect(function()
+    if not _G.Enabled then
+        connection:Disconnect()
+        return
+    end
+    if not ballInstance then
+        findBall()
+        return
+    end
+    local distance = (ballInstance.Position - humanoidRootPart.Position).Magnitude
+    if distance <= _G.Magnitude then
+        pickupBall(ballInstance)
+    end
+end)
