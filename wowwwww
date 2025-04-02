@@ -1,0 +1,29 @@
+_G.BallName = "ball"
+_G.Magnitude = 10
+_G.Enabled = true
+_G.Path = nil
+
+local player = game:GetService("Players").LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local humanoidRootPart = character:WaitForChild("HumanoidRootPart")
+local pickupHb = character:WaitForChild("pickuphb")
+
+local function pickupBall(ball)
+    firetouchinterest(ball, pickupHb, 0)
+    task.wait(0.05)
+    firetouchinterest(ball, pickupHb, 1)
+end
+
+while _G.Enabled and task.wait() do
+    local searchIn = _G.Path or workspace
+    for _, obj in ipairs(searchIn:GetDescendants()) do
+        if obj.Name == _G.BallName and obj:IsA("BasePart") then
+            if (obj.Position - humanoidRootPart.Position).Magnitude <= _G.Magnitude then
+                pickupBall(obj)
+                if not _G.Path then
+                    _G.Path = obj.Parent
+                end
+            end
+        end
+    end
+end
