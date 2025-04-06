@@ -50,3 +50,7 @@ end)
 player.CharacterAdded:Connect(function(newChar)
     character = newChar
 end)
+
+wait(10)
+
+button.Draggable = false
