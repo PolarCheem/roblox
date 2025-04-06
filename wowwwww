@@ -1,5 +1,5 @@
 _G.BallName = "ball"
-_G.Magnitude = 8.5
+_G.Magnitude = 9.25
 _G.Enabled = true
 
 local Players = game:GetService("Players")
@@ -35,7 +35,7 @@ local function pickupBall(ball)
     if isPickingUp or not ball then return end
     isPickingUp = true
     firetouchinterest(ball, pickupHb, 0)
-    task.wait(0.07)
+    task.wait(0.04)
     firetouchinterest(ball, pickupHb, 1)
     isPickingUp = false
 end
