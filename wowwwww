@@ -1,5 +1,5 @@
 _G.BallName = "ball"
-_G.Magnitude = 8
+_G.Magnitude = 9.25
 _G.Enabled = true
 
 local Players = game:GetService("Players")
