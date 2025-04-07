@@ -31,7 +31,7 @@ button.MouseButton1Click:Connect(function()
                         local args = {}
                         ReplicatedStorage:WaitForChild("Move1", 9e9):FireServer(unpack(args))
                         cooldown = true
-                        task.delay(40, function()
+                        task.delay(5, function()
                             cooldown = false
                         end)
                     end
