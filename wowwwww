@@ -40,15 +40,6 @@ local function pickupBall(ball)
     isPickingUp = false
 end
 
-coroutine.wrap(function()
-    while true do
-        if character and character:FindFirstChild("Stamina") then
-            character.Stamina.Value = 700
-        end
-        wait(5)
-    end
-end)()
-
 local connection
 connection = RunService.Heartbeat:Connect(function()
     if not _G.Enabled then
