@@ -35,7 +35,7 @@ local function pickupBall(ball)
     if isPickingUp or not ball then return end
     isPickingUp = true
     firetouchinterest(ball, pickupHb, 0)
-    task.wait(0.04)
+    task.wait(0.055)
     firetouchinterest(ball, pickupHb, 1)
     isPickingUp = false
 end
