@@ -1,3 +1,29 @@
+local Enabled = true
+local legDistance = 10
+local Ball = game.workspace.TPSSystem.TPS
+
+local leftleg = game.Players.LocalPlayer.Character["Left Leg"]
+local rightleg = game.Players.LocalPlayer.Character["Right Leg"]
+
+while Enabled do
+task.wait()
+local LeftArmDistance = (Ball.Position - leftleg.Position).Magnitude / 20
+local RightArmDistance = (Ball.Position - rightleg.Position).Magnitude / 20
+
+if LeftArmDistance <= legDistance then
+	firetouchinterest(leftleg, Ball, 0)
+	firetouchinterest(leftleg, Ball, 1)
+end
+if RightArmDistance <= legDistance then
+	firetouchinterest(rightleg, Ball, 0)
+	firetouchinterest(rightleg, Ball, 1)
+end
+end
+
+
+
+
+
 local Luna = loadstring(game:HttpGet("https://raw.githubusercontent.com/Nebula-Softworks/Luna-Interface-Suite/refs/heads/main/source.lua", true))()
 local Window = Luna:CreateWindow({
 	Name = "NYX - Key System", -- This Is Title Of Your Window
@@ -84,6 +110,15 @@ local Tab = Window:CreateTab({
 	ImageSource = "Material",
 	ShowTitle = true -- This will determine whether the big header text in the tab will show
 })
+
+
+
+
+
+
+
+
+
 
 
 
