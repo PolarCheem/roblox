@@ -1,29 +1,29 @@
 local Luna = loadstring(game:HttpGet("https://raw.githubusercontent.com/Nebula-Softworks/Luna-Interface-Suite/refs/heads/main/source.lua", true))()
 local Window = Luna:CreateWindow({
-	Name = "NYX - Key System", -- This Is Title Of Your Window
-	Subtitle = nil, -- A Gray Subtitle next To the main title.
-	LogoID = "82795327169782", -- The Asset ID of your logo. Set to nil if you do not have a logo for Luna to use.
-	LoadingEnabled = true, -- Whether to enable the loading animation. Set to false if you do not want the loading screen or have your own custom one.
-	LoadingTitle = "Key System", -- Header for loading screen
-	LoadingSubtitle = "Join the discord foe the key!", -- Subtitle for loading screen
+	Name = "NYX - Key System", 
+	Subtitle = nil,
+	LogoID = "82795327169782", 
+	LoadingEnabled = true, 
+	LoadingTitle = "Key System", 
+	LoadingSubtitle = "Join the discord for the key!",
 
 	ConfigSettings = {
 		RootFolder = nil, 
 		ConfigFolder = "NYXKEY" 
 	},
 
-	KeySystem = false, -- As Of Beta 6, Luna Has officially Implemented A Key System!
+	KeySystem = false, 
 	KeySettings = {
 		Title = "Key System",
 		Subtitle = "Key System",
 		Note = "made by lua...",
 		SaveInRoot = false, 
-		SaveKey = false, -- The user's key will be saved, but if you change the key, they will be unable to use your script
-		Key = {"DADDY_LUA"}, -- List of keys that will be accepted by the system, please use a system like Pelican or Luarmor that provide key strings based on your HWID since putting a simple string is very easy to bypass
+		SaveKey = false, 
+		Key = {"DADDY_LUA"}, 
 		SecondAction = {
-			Enabled = true, -- Set to false if you do not want a second action,
-			Type = "Discord", -- Link / Discord.
-			Parameter = "UbUASSefKJ" -- If Type is Discord, then put your invite link (DO NOT PUT DISCORD.GG/). Else, put the full link of your key system here.
+			Enabled = true,
+			Type = "Discord",
+			Parameter = "UbUASSefKJ" 
 		}
 	}
 })
@@ -32,7 +32,7 @@ local Tab = Window:CreateTab({
 	Name = "Key System",
 	Icon = "view_in_ar",
 	ImageSource = "Material",
-	ShowTitle = true -- This will determine whether the big header text in the tab will show
+	ShowTitle = true 
 })
 
 local key_sf = "DADDYLUA"
@@ -145,18 +145,18 @@ local Input = Tab:CreateInput({
 	Name = "Enter Key",
 	Description = nil,
 	PlaceholderText = "Type!",
-	CurrentValue = "", -- the current text
-	Numeric = false, -- When true, the user may only type numbers in the box (Example walkspeed)
-	MaxCharacters = 20, -- if a number, the textbox length cannot exceed the number
-	Enter = false, -- When true, the callback will only be executed when the user presses enter.
+	CurrentValue = "", 
+	Numeric = false,
+	MaxCharacters = 20, 
+	Enter = false, 
     	Callback = function(Text)
        	 KeyInput = Text
     	end
-}, "Input") -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+}, "Input") 
 
 local Button = Tab:CreateButton({
 	Name = "Check Key",
-	Description = nil, -- Creates A Description For Users to know what the button does (looks bad if you use it all the time),
+	Description = nil,
     	Callback = function()
          CheckKey()
     	end
@@ -164,7 +164,7 @@ local Button = Tab:CreateButton({
 
 local Button2 = Tab:CreateButton({
 	Name = "Get Key",
-	Description = nil, -- Creates A Description For Users to know what the button does (looks bad if you use it all the time),
+	Description = nil,
     	Callback = function()
          setclipboard(dc)
 					wait(1)
