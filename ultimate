@@ -1,29 +1,3 @@
-local Enabled = true
-local legDistance = 10
-local Ball = game.workspace.TPSSystem.TPS
-
-local leftleg = game.Players.LocalPlayer.Character["Left Leg"]
-local rightleg = game.Players.LocalPlayer.Character["Right Leg"]
-
-while Enabled do
-task.wait()
-local LeftArmDistance = (Ball.Position - leftleg.Position).Magnitude / 20
-local RightArmDistance = (Ball.Position - rightleg.Position).Magnitude / 20
-
-if LeftArmDistance <= legDistance then
-	firetouchinterest(leftleg, Ball, 0)
-	firetouchinterest(leftleg, Ball, 1)
-end
-if RightArmDistance <= legDistance then
-	firetouchinterest(rightleg, Ball, 0)
-	firetouchinterest(rightleg, Ball, 1)
-end
-end
-
-
-
-
-
 local Luna = loadstring(game:HttpGet("https://raw.githubusercontent.com/Nebula-Softworks/Luna-Interface-Suite/refs/heads/main/source.lua", true))()
 local Window = Luna:CreateWindow({
 	Name = "NYX - Key System", -- This Is Title Of Your Window
@@ -76,47 +50,87 @@ wait(1)
 
 local Luna = loadstring(game:HttpGet("https://raw.githubusercontent.com/Nebula-Softworks/Luna-Interface-Suite/refs/heads/main/source.lua", true))()
 local Window = Luna:CreateWindow({
-	Name = "NYX - Tps Ultimate", -- This Is Title Of Your Window
-	Subtitle = nil, -- A Gray Subtitle next To the main title.
-	LogoID = "82795327169782", -- The Asset ID of your logo. Set to nil if you do not have a logo for Luna to use.
-	LoadingEnabled = true, -- Whether to enable the loading animation. Set to false if you do not want the loading screen or have your own custom one.
-	LoadingTitle = "TPS ULTIMATE", -- Header for loading screen
-	LoadingSubtitle = "by lua", -- Subtitle for loading screen
-
+	Name = "NYX - Tps Ultimate",
+	Subtitle = nil,
+	LogoID = "82795327169782",
+	LoadingEnabled = true,
+	LoadingTitle = "TPS ULTIMATE",
+	LoadingSubtitle = "by lua",
 	ConfigSettings = {
-		RootFolder = nil, 
-		ConfigFolder = "NYXULTIMATE" 
+		RootFolder = nil,
+		ConfigFolder = "NYXULTIMATE"
 	},
-
-	KeySystem = false, -- As Of Beta 6, Luna Has officially Implemented A Key System!
+	KeySystem = false,
 	KeySettings = {
 		Title = "Luna Example Key",
 		Subtitle = "Key System",
 		Note = "made by lua...",
-		SaveInRoot = false, 
-		SaveKey = false, -- The user's key will be saved, but if you change the key, they will be unable to use your script
-		Key = {"DADDY_LUA"}, -- List of keys that will be accepted by the system, please use a system like Pelican or Luarmor that provide key strings based on your HWID since putting a simple string is very easy to bypass
+		SaveInRoot = false,
+		SaveKey = false,
+		Key = {"DADDY_LUA"},
 		SecondAction = {
-			Enabled = true, -- Set to false if you do not want a second action,
-			Type = "Discord", -- Link / Discord.
-			Parameter = "UbUASSefKJ" -- If Type is Discord, then put your invite link (DO NOT PUT DISCORD.GG/). Else, put the full link of your key system here.
+			Enabled = true,
+			Type = "Discord",
+			Parameter = "UbUASSefKJ"
 		}
 	}
 })
 
-local Tab = Window:CreateTab({
+local Enabled = false
+local legDistance = 1
+local Ball = game.workspace.TPSSystem.TPS
+
+local leftleg = game.Players.LocalPlayer.Character["Left Leg"]
+local rightleg = game.Players.LocalPlayer.Character["Right Leg"]
+
+function legreach()
+	while Enabled do
+		task.wait()
+		local LeftArmDistance = (Ball.Position - leftleg.Position).Magnitude / 20
+		local RightArmDistance = (Ball.Position - rightleg.Position).Magnitude / 20
+
+		if LeftArmDistance <= legDistance then
+			firetouchinterest(leftleg, Ball, 0)
+			firetouchinterest(leftleg, Ball, 1)
+		end
+		if RightArmDistance <= legDistance then
+			firetouchinterest(rightleg, Ball, 0)
+			firetouchinterest(rightleg, Ball, 1)
+		end
+	end
+end
+
+local ReachTab = Window:CreateTab({
 	Name = "Reach (R6)",
 	Icon = "view_in_ar",
 	ImageSource = "Material",
-	ShowTitle = true -- This will determine whether the big header text in the tab will show
+	ShowTitle = true
 })
 
+local LegToggle = ReachTab:CreateToggle({
+	Name = "Leg Reach",
+	Description = nil,
+	CurrentValue = false,
+	Callback = function(Value)
+		Enabled = Value
+		if Value then
+			legreach()
+		end
+	end
+}, "Toggle")
 
-
-
-
-
-
+local LegSlider = ReachTab:CreateSlider({
+	Name = "Leg Reach Distance",
+	Range = {1, 10},
+	Increment = 0.5,
+	CurrentValue = 1,
+	Callback = function(Value)
+		local num = tonumber(Value)
+		if num and num > 0 then
+			legDistance = num
+		end
+	end
+}, "Slider")
 
 
 
