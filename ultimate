@@ -76,26 +76,47 @@ local Window = Luna:CreateWindow({
 	}
 })
 
-local Enabled = false
+local LegEnabled = false
 local legDistance = 1
+local ArmEnabled = false
+local armDistance = 1
 local Ball = game.workspace.TPSSystem.TPS
 
 local leftleg = game.Players.LocalPlayer.Character["Left Leg"]
 local rightleg = game.Players.LocalPlayer.Character["Right Leg"]
+local leftarm = game.Players.LocalPlayer.Character["Left Arm"]
+local rightarm = game.Players.LocalPlayer.Character["Right Arm"]
 
 function legreach()
-	while Enabled do
+	while LegEnabled do
 		task.wait()
-		local LeftArmDistance = (Ball.Position - leftleg.Position).Magnitude / 20
-		local RightArmDistance = (Ball.Position - rightleg.Position).Magnitude / 20
+		local LeftLegDistance = (Ball.Position - leftleg.Position).Magnitude / 20
+		local RightLegDistance = (Ball.Position - rightleg.Position).Magnitude / 20
 
-		if LeftArmDistance <= legDistance then
+		if LeftLegDistance <= legDistance then
 			firetouchinterest(leftleg, Ball, 0)
 			firetouchinterest(leftleg, Ball, 1)
 		end
-		if RightArmDistance <= legDistance then
+		if RightLegDistance <= legDistance then
 			firetouchinterest(rightleg, Ball, 0)
 			firetouchinterest(rightleg, Ball, 1)
+		end
+	end
+end
+
+function armreach()
+	while ArmEnabled do
+		task.wait()
+		local LeftArmDistance = (Ball.Position - leftarm.Position).Magnitude / 20
+		local RightArmDistance = (Ball.Position - rightarm.Position).Magnitude / 20
+
+		if LeftArmDistance <= armDistance then
+			firetouchinterest(leftarm, Ball, 0)
+			firetouchinterest(leftarm, Ball, 1)
+		end
+		if RightArmDistance <= armDistance then
+			firetouchinterest(rightarm, Ball, 0)
+			firetouchinterest(rightarm, Ball, 1)
 		end
 	end
 end
@@ -112,7 +133,7 @@ local LegToggle = ReachTab:CreateToggle({
 	Description = nil,
 	CurrentValue = false,
 	Callback = function(Value)
-		Enabled = Value
+		LegEnabled = Value
 		if Value then
 			legreach()
 		end
@@ -132,8 +153,30 @@ local LegSlider = ReachTab:CreateSlider({
 	end
 }, "Slider")
 
+local ArmToggle = ReachTab:CreateToggle({
+	Name = "Arm Reach",
+	Description = nil,
+	CurrentValue = false,
+	Callback = function(Value)
+		ArmEnabled = Value
+		if Value then
+			armreach()
+		end
+	end
+}, "Toggle")
 
-
+local ArmSlider = ReachTab:CreateSlider({
+	Name = "Arm Reach Distance",
+	Range = {1, 10},
+	Increment = 0.5,
+	CurrentValue = 1,
+	Callback = function(Value)
+		local num = tonumber(Value)
+		if num and num > 0 then
+			armDistance = num
+		end
+	end
+}, "Slider")
 
 
 else
