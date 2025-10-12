@@ -1,0 +1,20 @@
+-- dungeon
+getgenv().DungeonFarm = false
+getgenv().DungeonReset = false
+getgenv().DungeonWave = 91
+getgenv().DungeonMoves = false
+
+local allowedUsers = {
+    ["USER1"] = true,
+    ["USER2"] = true
+}
+
+getgenv().AutoGojo = false
+
+getgenv().AutoQuest = false
+getgenv().InstaKill = true -- kills when they have 88% health left for credit
+getgenv().AutoFarm = false
+getgenv().AutoM1 = false
+
+getgenv().QuestType = "Boss" -- Boss / Normal
+getgenv().QuestNumber = 24 -- bypasses level req
