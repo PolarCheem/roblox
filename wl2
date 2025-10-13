@@ -74,13 +74,13 @@ task.spawn(function()
 	end
 end)
 
--- Dungeon Farm (ignore players, attack all NPCs)
+-- Dungeon Farm (only target mobs with "Dungeon" in their name)
 task.spawn(function()
 	local antifall
 	while task.wait(0.1) do
 		pcall(function()
 			if not getgenv().DungeonFarm then
-				if antifall then antifall:Destroy(); antifall = nil end
+				if antifall then antifall:Destroy() antifall = nil end
 				return
 			end
 
@@ -100,7 +100,7 @@ task.spawn(function()
 
 			local closest, dist = nil, math.huge
 			for _, mob in pairs(chars:GetChildren()) do
-				if mob ~= Player.Character then -- skip player
+				if mob ~= Player.Character and string.find(mob.Name, "Dungeon") then
 					local hrp = mob:FindFirstChild("HumanoidRootPart")
 					local hum = mob:FindFirstChildOfClass("Humanoid")
 					if hrp and hum and hum.Health > 0 then
