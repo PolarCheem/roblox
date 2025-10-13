@@ -3,6 +3,15 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Workspace = game:GetService("Workspace")
 local TeleportService = game:GetService("TeleportService")
 
+local GojoMove = {
+    {Name = "Reversal Red", MoveIndex = "FirstMove"},
+    {Name = ".2 Second Domain", MoveIndex = "FifthMove"}
+}
+
+local GojoDungeon = {
+    {Name = "Lapse Blue", MoveIndex = "SecondMove"}
+}
+
 -- Auto Quest
 task.spawn(function()
 	while task.wait(3) do
